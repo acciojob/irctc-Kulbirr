@@ -3,6 +3,7 @@ package com.driver.controllers;
 
 import com.driver.model.Passenger;
 import com.driver.services.PassengerService;
+import com.driver.services.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,6 +16,9 @@ public class PassengerController {
 
     @Autowired
     PassengerService passengerService;
+
+    @Autowired
+    TicketService ticketService;
 
     @PostMapping("/create")
     public Integer registerPassenger(@RequestBody Passenger passenger){
