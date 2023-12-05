@@ -29,22 +29,21 @@ public class TrainService {
         //Save the train and return the trainId that is generated from the database.
         //Avoid using the lombok library
         Train train = new Train();
-        train.setDepartureTime(trainEntryDto.getDepartureTime());
         train.setNoOfSeats(trainEntryDto.getNoOfSeats());
 
-        int n = trainEntryDto.getStationRoute().size();
-        List<Station> stationList = trainEntryDto.getStationRoute();
-        String route = stationList.get(0).name();
-        for(int i = 1; i < n; i++){
-            route += stationList.get(i).name();
+        List<Station> list = trainEntryDto.getStationRoute();
+        String route = "";
+
+        for(int i=0;i<list.size();i++){
+            if(i==list.size()-1)
+                route += list.get(i);
+            else
+                route += list.get(i) + ",";
         }
-
         train.setRoute(route);
-        trainRepository.save(train);
 
-        List<Ticket> bookedTickets = train.getBookedTickets();
-
-        return train.getTrainId();
+        train.setDepartureTime(trainEntryDto.getDepartureTime());
+        return trainRepository.save(train).getTrainId();
     }
 
     public Integer calculateAvailableSeats(SeatAvailabilityEntryDto seatAvailabilityEntryDto){
